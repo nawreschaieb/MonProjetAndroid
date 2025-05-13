@@ -1,88 +1,67 @@
 package com.example.myapplication;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import java.util.Random;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn, truthBtn, dareBtn;
-    private ImageView imgView;
-    private Random random = new Random();
-    private int lastDirection;
-    private MediaPlayer mp;
+    private SharedPreferences sharedPreferences;
+    private ImageView imageView;
+    private float currentRotation = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn = findViewById(R.id.button);
-        truthBtn = findViewById(R.id.btn1);
-        dareBtn = findViewById(R.id.btn2);
-        imgView = findViewById(R.id.imageView);
+        // Initialiser SharedPreferences
+        sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
 
-        truthBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), TruthActivity.class));
-            }
-        });
+        // Vérifier si l'utilisateur est connecté
+        if (!sharedPreferences.getBoolean("isLoggedIn", false)) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+            return;
+        }
 
-        dareBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), DareActivity.class));
-            }
-        });
+        imageView = findViewById(R.id.imageView);
+        Button spinButton = findViewById(R.id.button);
+        Button btnTruth = findViewById(R.id.btn1);
+        Button btnDare = findViewById(R.id.btn2);
+
+        // Bouton "Tourner la bouteille"
+        spinButton.setOnClickListener(v -> spin());
+
+        // Bouton "Vérité"
+        btnTruth.setOnClickListener(v ->
+                Toast.makeText(MainActivity.this, "Tu as choisi : Vérité", Toast.LENGTH_SHORT).show()
+        );
+
+        // Bouton "Action"
+        btnDare.setOnClickListener(v ->
+                Toast.makeText(MainActivity.this, "Tu as choisi : Action", Toast.LENGTH_SHORT).show()
+        );
     }
 
+    // Fonction pour faire tourner la bouteille
+    public void spin() {
+        float angle = (float) (Math.random() * 3600 + 360); // Rotation aléatoire entre 360° et 3960°
+        imageView.animate().rotation(currentRotation + angle).setDuration(2000);
+        currentRotation += angle;
+    }
+
+    // Empêcher le retour direct à StartActivity
     @Override
-    protected void onResume() {
-        super.onResume();
-        truthBtn.setEnabled(false);
-        dareBtn.setEnabled(false);
-        btn.setEnabled(true);
+    public void onBackPressed() {
+        Intent intent = new Intent(MainActivity.this, StartActivity.class);
+        startActivity(intent);
+        finish();
     }
-
-    public void spin(View view) {
-
-        int newDirection = random.nextInt(5400);
-        float pivotX = imgView.getWidth()/2;
-        float pivotY = imgView.getHeight()/2;
-
-        Animation rotate = new RotateAnimation(lastDirection, newDirection, pivotX, pivotY);
-        rotate.setDuration(2000);
-        rotate.setFillAfter(true);
-        rotate.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-                btn.setEnabled(false);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-                truthBtn.setEnabled(true);
-                dareBtn.setEnabled(true);
-                btn.setEnabled(true); // Re-enable the spin button after animation
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-        lastDirection = newDirection;
-        imgView.startAnimation(rotate);
-    }
-
 }

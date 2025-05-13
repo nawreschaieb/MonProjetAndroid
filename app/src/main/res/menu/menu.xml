@@ -9,4 +9,15 @@
         android:icon="@drawable/ic_add"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/action_home"
+        android:title="Accueil"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="Déconnexion"
+        app:showAsAction="never"/>
+
 </menu>

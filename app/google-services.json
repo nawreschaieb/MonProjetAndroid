@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "441454164984",
+    "project_id": "truth0dare-3504f",
+    "storage_bucket": "truth0dare-3504f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441454164984:android:fcbe278ad3bb676409b40d",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtwazLY9LzJUR5eWI1VKeMBOS6vMpn60M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

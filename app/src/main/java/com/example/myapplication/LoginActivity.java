@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,10 +31,10 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         // Références aux vues
-        emailET = findViewById(R.id.emailET);
-        passwordET = findViewById(R.id.passwordET);
-        loginBtn = findViewById(R.id.loginBtn);
-        gotoSignup = findViewById(R.id.gotoSignup);
+        emailET = findViewById(R.id.et_username);
+        passwordET = findViewById(R.id.et_password);
+        loginBtn = findViewById(R.id.btn_login);
+        gotoSignup = findViewById(R.id.tv_go_to_signup);
 
         // Gestion du bouton de connexion
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -53,8 +54,16 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    // ✅ Enregistrer l'état connecté dans SharedPreferences
+                                    SharedPreferences preferences = getSharedPreferences("UserData", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putBoolean("isLoggedIn", true);
+                                    editor.apply();
+
                                     Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                                    // ✅ Rediriger vers StartActivity
+                                    startActivity(new Intent(LoginActivity.this, StartActivity.class));
                                     finish();
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Erreur : " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

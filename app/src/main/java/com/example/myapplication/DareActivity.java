@@ -3,7 +3,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.myapplication.R;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -135,23 +135,22 @@ public class DareActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu, menu);
         return  super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_add) {
-            // your code
-            showDialog();
 
-            return true;
-        } else  {
-            return super.onOptionsItemSelected(item);
-            // handle another action
-        }
+            if (item.getItemId() == R.id.action_add) {
+                // your code
+                showDialog();
 
-        }
+                return true;
+            } else  {
+                return super.onOptionsItemSelected(item);
+                // handle another action
+            }
     }
 
+}

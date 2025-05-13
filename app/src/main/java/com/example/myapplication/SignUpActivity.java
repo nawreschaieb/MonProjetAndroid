@@ -36,11 +36,11 @@ public class SignUpActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
 
         // Lier les vues
-        nameET = findViewById(R.id.nameET);
-        emailET = findViewById(R.id.emailET);
-        passwordET = findViewById(R.id.passwordET);
-        signupBtn = findViewById(R.id.signupBtn);
-        gotoLogin = findViewById(R.id.gotoLogin);
+        nameET = findViewById(R.id.et_username);
+        emailET = findViewById(R.id.et_email);
+        passwordET = findViewById(R.id.et_password);
+        signupBtn = findViewById(R.id.btn_signup);
+        gotoLogin = findViewById(R.id.tv_go_to_login);
 
         // Bouton d'inscription
         signupBtn.setOnClickListener(new View.OnClickListener() {
